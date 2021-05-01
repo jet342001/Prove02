@@ -21,7 +21,6 @@ router.get('/add-books', (req, res, next) => {
 
 router.post('/add-books', (req, res, next) => {
     booksInv.push({book: {title: req.body.title, description: req.body.description} });
-    console.log(booksInv.length);
     res.redirect('/books');
 });
 
