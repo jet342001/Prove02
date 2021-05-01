@@ -1,0 +1,24 @@
+<%- include('includes/head.ejs') %>
+    <%- include('includes/nav.ejs')  %>
+
+   <% console.log(bookInventory); %>
+    <% if (hasBooks) {  %>
+        <% for (let book of bookInventory) { %>
+
+            <div class='grid'>
+                <div class='card'>
+                    <h4><%=  book.book.title %> </h4>
+                    <h5 class='bookh5'>Description</h5>
+                    <p class='bookp'><%= book.book.description %> </p>
+                </div>
+            </div>
+
+        <% } %>
+
+    <% } else { %>
+        <h1>boohoo </h1>
+    <% } %>
+
+
+<%- include('includes/end.ejs') %>
+
