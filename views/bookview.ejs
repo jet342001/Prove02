@@ -1,0 +1,11 @@
+<%- include('includes/head.ejs') %>
+    <%- include('includes/nav.ejs')  %>
+
+            <h1><%= book.title %></h1>
+            <hr>
+            <div>
+                <img class='book-image' src="<%= book.imageUrl %>">
+            </div>
+            <h2><%= book.price %></h2>
+            <p><%= book.description %></p>
+<%- include('includes/end.ejs') %>

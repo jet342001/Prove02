@@ -1,18 +1,21 @@
 <%- include('includes/head.ejs') %>
     <%- include('includes/nav.ejs')  %>
+    <div class='grid'>
 
     <% if (hasBooks) {  %>
         <% for (let book of bookInventory) { %>
-
-            <div class='grid'>
+            <div class=''>
+                
                 <div class='card'>
-                    <h4><%=  book.book.title %> </h4>
+                    <h4><%=  book.title %> </h4>
                     <h5 class='bookh5'>Description</h5>
-                    <p class='bookp'><%= book.book.description %> </p>
-                </div>
+                    <p class='bookp'><%= book.description %> </p>
+                    <a class="btn" href="/get-edit"></a> <button> Edit</button></a>
+                    <a href="/books/<%= book.id %>">View book</a>
+                </div>             
             </div>
-
         <% } %>
+    </div>
 
     <% } else { %>
         <h1>boohoo </h1>
