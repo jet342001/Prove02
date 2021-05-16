@@ -1,16 +1,13 @@
 const path = require("path");
 const mongoose = require("mongoose");
-
 const port = "process.env.PORT || 5000 ";
-
 const http = require("http");
 const User = require("./model/user");
-
 const express = require("express");
 const bodyParser = require("body-parser");
-const app = express();
-
 const cors = require("cors"); // Place this with other requires (like 'path' and 'express')
+
+const app = express();
 
 const corsOptions = {
   origin: "https://<your_app_name>.herokuapp.com/",
