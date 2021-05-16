@@ -8,6 +8,7 @@ const User = require("./model/user");
 
 const express = require("express");
 const bodyParser = require("body-parser");
+const app = express();
 
 const cors = require("cors"); // Place this with other requires (like 'path' and 'express')
 
@@ -28,8 +29,6 @@ const options = {
 const MONGODB_URL =
   process.env.MONGODB_URL ||
   "mongodb+srv://<username>:<username>@cse341cluster-3dwlw.mongodb.net/test?retryWrites=true&w=majority";
-
-const app = express();
 
 const booksData = require("./routes/add-book");
 
