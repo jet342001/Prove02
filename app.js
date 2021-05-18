@@ -3,6 +3,7 @@ const path = require("path");
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+require("dotenv").config();
 
 const port = process.env.PORT || 5000; //
 const User = require("./model/user");
@@ -25,8 +26,7 @@ const options = {
   family: 4,
 };
 
-const MONGODB_URL = process.env.MONGODB_URL; //||
-//"mongodb+srv://test:Fx7Bc9NYqesj7ffp@cluster0.u8ta3.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+const MONGODB_URL = process.env.MONGODB_URL;
 
 const booksData = require("./routes/add-book");
 
