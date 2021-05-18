@@ -27,7 +27,7 @@ const options = {
 
 const MONGODB_URL =
   process.env.MONGODB_URL ||
-  "mongodb+srv://test:rqCHtsRcDHu7GIFf@cluster0.u8ta3.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+  "mongodb+srv://test:Fx7Bc9NYqesj7ffp@cluster0.u8ta3.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
 
 const booksData = require("./routes/add-book");
 
