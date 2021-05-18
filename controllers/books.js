@@ -102,3 +102,42 @@ exports.postDeleteBook = (req, res, next) => {
     res.redirect("/books");
   });
 };
+
+//Shopping cart operations
+exports.getCart = (req, res, next) => {
+  req.user
+    .populate("cart.items.bookId")
+    .execPopulate()
+    .then((books) => {
+      res.render("cart", {
+        path: "/cart",
+        pageTitle: "Your Cart",
+        books: books,
+      });
+    })
+    .catch((err) => console.log(err));
+};
+
+exports.postCart = (req, res, next) => {
+  const prodId = req.body.bookId;
+  console.log(req.user);
+  Book.findById(prodId)
+    .then((book) => {
+      console.log(prodId, book);
+      return req.user.addToCart(book);
+    })
+    .then((result) => {
+      console.log(result);
+      res.redirect("books");
+    });
+};
+
+exports.postCartDeleteBook = (req, res, next) => {
+  const prodId = req.body.bookId;
+  req.user
+    .deleteItemFromCart(prodId)
+    .then((result) => {
+      res.redirect("/cart");
+    })
+    .catch((err) => console.log(err));
+};

@@ -16,4 +16,8 @@ router.post("/deleteBook", booksController.postDeleteBook);
 router.get("/books", booksController.getDisplayBooks);
 router.get("/books/:bookId", booksController.getDisplayBook);
 
+//Cart functions
+router.get("/cart", booksController.getCart);
+router.post("/cart", booksController.postCart);
+
 exports.routes = router;
