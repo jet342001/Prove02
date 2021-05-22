@@ -12,17 +12,24 @@
                     <p class='bookp'><%= book.description %> </p>
                     <!--add if admin, admin does not need cart functions -->
                     <form id='addCart' action="/cart" method="POST" >
-                        <button class="btn" type="submit"> Add To Cart </button>
+                        <input type="hidden" name="_csrf" value="<%= csrfToken %>" >
+                        <input type="hidden" name="bookId" value="<%= book._id %>">
                     </form>
+                                        
+                    <% if (isAuthenticated) { %> 
                     <a class="btn" href="/edit-book/<%= book.id %>"> Edit Book </a>
+                    <% } %>
                     <a class="btn" href="/books/<%= book.id %>">View book</a>
+                    <% if (!isAuthenticated) { %>
+                    <button class="btn" type="submit" form="addCart"> Add To Cart </button>
+                    <% }%>
                 </div>             
             </div>
-        <% } %>
+        <% } } %>
     </div>
 
-    <% } else { %>
-        <h1>boohoo </h1>
+    <% if(!hasBooks) { %>
+        <h1>There are Currently no books</h1>
     <% } %>
 
 

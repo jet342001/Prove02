@@ -19,6 +19,7 @@ exports.postAddBook = (req, res, next) => {
     price: price,
     imageUrl: imageUrl,
     description: description,
+    userId: req.user,
   });
   book
     .save()
@@ -105,6 +106,7 @@ exports.postDeleteBook = (req, res, next) => {
 
 //Shopping cart operations
 exports.getCart = (req, res, next) => {
+  console.log(req.session.user);
   req.user
     .populate("cart.items.bookId")
     .execPopulate()
@@ -120,10 +122,9 @@ exports.getCart = (req, res, next) => {
 
 exports.postCart = (req, res, next) => {
   const prodId = req.body.bookId;
-  console.log(req.user);
   Book.findById(prodId)
     .then((book) => {
-      console.log(prodId, book);
+      console.log(req.user, prodId, book);
       return req.user.addToCart(book);
     })
     .then((result) => {

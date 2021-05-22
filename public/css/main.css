@@ -24,8 +24,10 @@ main {
 
 .main-header__nav {
   height: 100%;
+  width: 100%;
   display: flex;
   align-items: center;
+  justify-content: space-between;
 }
 
 .main-header__item-list {
@@ -40,9 +42,14 @@ main {
   padding: 0;
 }
 
-.main-header__item a {
+.main-header__item a,
+.main-header__item button {
+  font: inherit;
+  background: transparent;
+  border: none;
   text-decoration: none;
   color: white;
+  cursor: pointer;
 }
 
 .main-header__item a:hover,
@@ -128,4 +135,15 @@ for buttons
 .btn:active {
   position: relative;
   top: 1px;
+}
+
+/*
+auth form
+*/
+
+.login-form {
+  width: 20rem;
+  max-width: 90%;
+  margin: auto;
+  display: block;
 }

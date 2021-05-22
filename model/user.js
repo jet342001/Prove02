@@ -7,6 +7,10 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
+  password: {
+    type: String,
+    required: true,
+  },
   email: {
     type: String,
     required: true,
@@ -29,7 +33,6 @@ userSchema.methods.addToCart = function (book) {
   const cartBookIndex = this.cart.items.findIndex((cp) => {
     return cp.bookId.toString() === book._id.toString();
   });
-  console.log(book);
   let newQuantity = 1;
   const updatedCartItems = [...this.cart.items];
 
