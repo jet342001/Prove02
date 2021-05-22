@@ -110,7 +110,8 @@ exports.getCart = (req, res, next) => {
   req.user
     .populate("cart.items.bookId")
     .execPopulate()
-    .then((books) => {
+    .then((user) => {
+      const books = user.cart.items;
       res.render("cart", {
         path: "/cart",
         pageTitle: "Your Cart",
@@ -139,6 +140,44 @@ exports.postCartDeleteBook = (req, res, next) => {
     .deleteItemFromCart(prodId)
     .then((result) => {
       res.redirect("/cart");
+    })
+    .catch((err) => console.log(err));
+};
+
+exports.postOrder = (req, res, next) => {
+  req.user
+    .populate("cart.items.bookId")
+    .execPopulate()
+    .then((user) => {
+      const books = user.cart.items.map((i) => {
+        return { quantity: i.quantity, book: { ...i.bookId._doc } };
+      });
+      const order = new Order({
+        user: {
+          email: req.user.email,
+          userId: req.user,
+        },
+        books: books,
+      });
+      return order.save();
+    })
+    .then((result) => {
+      return req.user.clearCart();
+    })
+    .then(() => {
+      res.redirect("/orders");
+    })
+    .catch((err) => console.log(err));
+};
+
+exports.getOrders = (req, res, next) => {
+  Order.find({ "user.userId": req.user._id })
+    .then((orders) => {
+      res.render("orders", {
+        path: "/orders",
+        pageTitle: "Your Orders",
+        orders: orders,
+      });
     })
     .catch((err) => console.log(err));
 };
