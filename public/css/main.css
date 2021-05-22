@@ -114,9 +114,9 @@ for buttons
 */
 .btn {
   box-shadow: inset 0px 1px 0px 0px #97c4fe;
-  background: linear-gradient(to bottom, #3d94f6 5%, #1e62d0 100%);
+  background: linear-gradient(to bottom, #3d94f6 5%, #0076b6 100%);
   background-color: #3d94f6;
-  border-radius: 6px;
+  border-radius: 2px;
   border: 1px solid #337fed;
   display: inline-block;
   cursor: pointer;
@@ -146,4 +146,28 @@ auth form
   max-width: 90%;
   margin: auto;
   display: block;
+}
+
+/*
+book view 
+*/
+.book-container {
+  min-height: 100vh;
+  max-height: 100%;
+  margin-top: 15px;
+  padding: 20px;
+  max-width: 90%;
+  min-width: 90%;
+  border: pink solid 3px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+}
+.card h4 {
+  max-height: 1.5rem;
+  overflow: hidden;
+}
+
+.bookp {
+  overflow: hidden;
+  min-height: 7rem;
+  max-height: 7rem;
 }
