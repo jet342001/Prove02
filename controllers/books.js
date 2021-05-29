@@ -1,18 +1,46 @@
 const Book = require("../model/booksmodel");
 
+const User = require("../model/user");
+const { validationResult } = require("express-validator/check");
+
 exports.getAddBook = (req, res, next) => {
   res.render("edit-book", {
-    editing: false,
     pageTitle: "Add Book",
     path: "add-books",
+    editing: false,
+    hasError: false,
+    errorMessage: null,
+    validationErrors: [],
   });
 };
 
 exports.postAddBook = (req, res, next) => {
+  console.log("checking errors");
   const title = req.body.title;
   const description = req.body.description;
   const price = req.body.price;
   const imageUrl = req.body.imageUrl;
+  const errors = validationResult(req);
+  console.log("checking errors");
+  if (!errors.isEmpty) {
+    res.status(422).render("edit-book", {
+      pageTitle: "Add Book",
+      path: "/edit-book",
+      editing: false,
+      hasError: true,
+      book: book,
+      errorMessage: message,
+      oldInput: {
+        title: title,
+        imageUrl: imageUrl,
+        price: price,
+        description: description,
+      },
+      errorMessage: errors.array()[0].msg,
+      validationErrors: [],
+    });
+  }
+
   const book = new Book({
     title: title,
     author: null,
@@ -29,6 +57,7 @@ exports.postAddBook = (req, res, next) => {
       res.redirect("/books");
     })
     .catch((err) => {
+      error.httpStatusCode = 500;
       console.log(err);
     });
 };
@@ -56,6 +85,12 @@ exports.getDisplayBook = (req, res, next) => {
 };
 
 exports.getEditBook = (req, res, next) => {
+  let message = req.flash("error");
+  if (message.length > 0) {
+    message = message[0];
+  } else {
+    message = null;
+  }
   const editMode = true;
   const prodId = req.params.bookId;
   Book.findById(prodId)
@@ -68,6 +103,15 @@ exports.getEditBook = (req, res, next) => {
         path: "/edit-book",
         editing: editMode,
         book: book,
+        hasError: false,
+        errorMessage: message,
+        oldInput: {
+          Title: "",
+          imageUrl: "",
+          price: "",
+          description: "",
+        },
+        validationErrors: [],
       });
     })
     .catch((err) => console.log(err));
@@ -79,7 +123,26 @@ exports.postEditBook = (req, res, next) => {
   const updatedPrice = req.body.price;
   const updatedImageUrl = req.body.imageUrl;
   const updatedDesc = req.body.description;
-  console.log("posting an edit");
+
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.status(422).render("Edit-Book", {
+      pageTitle: "Edit Book",
+      path: "/Edit-Book",
+      editing: true,
+      hasError: true,
+      book: {
+        title: updatedTitle,
+        imageUrl: updatedImageUrl,
+        price: updatedPrice,
+        description: updatedDesc,
+        _id: prodId,
+      },
+      errorMessage: errors.array()[0].msg,
+      validationErrors: errors.array(),
+    });
+  }
 
   Book.findById(prodId)
     .then((book) => {
@@ -125,12 +188,12 @@ exports.postCart = (req, res, next) => {
   const prodId = req.body.bookId;
   Book.findById(prodId)
     .then((book) => {
-      console.log(req.user, prodId, book);
+      console.log(book.id);
       return req.user.addToCart(book);
     })
     .then((result) => {
       console.log(result);
-      res.redirect("books");
+      res.redirect("cart");
     });
 };
 

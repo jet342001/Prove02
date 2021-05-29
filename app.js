@@ -7,20 +7,20 @@ const session = require("express-session");
 const MongoDBStore = require("connect-mongodb-session")(session);
 const MONGODB_URI =
   "mongodb+srv://Steve:M2j9DCBGynRG7Clu@cluster0.u8ta3.mongodb.net/myFirstDatabase";
-
 require("dotenv").config();
 const csrf = require("csurf");
 
-const port = process.env.PORT || 5000; //
+const port = process.env.PORT || 5000;
 const User = require("./model/user");
 const flash = require("connect-flash");
-const cors = require("cors"); // Place this with other requires (like 'path' and 'express')
+const cors = require("cors");
 
 const app = express();
 const store = new MongoDBStore({
   uri: MONGODB_URI,
   collection: "sessions",
 });
+const MONGODB_URL = process.env.MONGODB_URL;
 
 const corsOptions = {
   origin: "https://<your_app_name>.herokuapp.com/",
@@ -38,8 +38,6 @@ const options = {
 
 const csrfProctection = csrf();
 
-const MONGODB_URL = process.env.MONGODB_URL;
-
 app.set("view engine", "ejs");
 app.set("views", "views");
 
@@ -49,17 +47,6 @@ const authRoutes = require("./routes/auth");
 app.use(bodyParser.urlencoded({ extended: false }));
 //give user access to the public folder
 app.use(express.static(path.join(__dirname, "public")));
-app.use((req, res, next) => {
-  if (!req.session || !req.session.user) {
-    return next();
-  }
-  User.findById(req.session.user._id)
-    .then((user) => {
-      req.user = user;
-      next();
-    })
-    .catch((err) => console.log(err));
-});
 
 app.use(
   session({
@@ -75,6 +62,18 @@ app.use((req, res, next) => {
   res.locals.isAuthenticated = req.session.isLoggedin;
   res.locals.csrfToken = req.csrfToken();
   next();
+});
+
+app.use((req, res, next) => {
+  if (!req.session.user) {
+    return next();
+  }
+  User.findById(req.session.user._id)
+    .then((user) => {
+      req.user = user;
+      next();
+    })
+    .catch((err) => console.log(err));
 });
 
 //routes

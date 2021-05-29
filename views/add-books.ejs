@@ -1,7 +1,11 @@
 <%- include('includes/head.ejs') %>
     
 <%- include('includes/nav.ejs')  %>
-
+<% if (errorMessage) { %>
+    <div class="input-error">
+        <%= errorMessage %>
+    </div>
+    <% } %>
 
     <form class="book-form" action="/add-books" method="POST">
         <div class="form-control">

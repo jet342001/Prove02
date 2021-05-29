@@ -7,11 +7,11 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
-  password: {
+  email: {
     type: String,
     required: true,
   },
-  email: {
+  password: {
     type: String,
     required: true,
   },
@@ -41,7 +41,7 @@ userSchema.methods.addToCart = function (book) {
     updatedCartItems[cartBookIndex].quantity = newQuantity;
   } else {
     updatedCartItems.push({
-      BookId: book._id,
+      bookId: book._id,
       quantity: newQuantity,
     });
   }

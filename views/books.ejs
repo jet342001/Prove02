@@ -14,14 +14,15 @@
                     <form id='addCart' action="/cart" method="POST" >
                         <input type="hidden" name="_csrf" value="<%= csrfToken %>" >
                         <input type="hidden" name="bookId" value="<%= book._id %>">
+                        <button class="btn" type="submit"> Add To Cart </button>
                     </form>
                                         
                     <% if (isAuthenticated) { %> 
                     <a class="btn" href="/edit-book/<%= book.id %>"> Edit Book </a>
                     <% } %>
                     <a class="btn" href="/books/<%= book.id %>">View book</a>
-                    <% if (!isAuthenticated) { %>
-                    <button class="btn" type="submit" form="addCart"> Add To Cart </button>
+                    <% if (isAuthenticated) { %>
+                    
                     <% }%>
                 </div>             
             </div>
